@@ -1,3 +1,4 @@
-*Skin Author "Alex Peters" Created 28/11/2003 Title "Floating Tag"
+*Skin Author "Alex Peters" Created 23/8/2004 Title "Floating Tag"
 *Bar Shape Back.bmp
-*Button ID 1 Left 16 Top 4 Width 36 Height 36 IconPos Center
+*Button ID 0 Left 16 Top 4 Width 36 Height 36 IconPos Center
+*Button ID 1 Left 0 Top 0 Width 56 Height 44 No3D

@@ -1,0 +1,226 @@
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+; Floating Tag v2.0
+; Written by Alex Peters, 4/10/2004
+; ______________________________________________________________________
+
+; If an argument has been passed to the script then we will assume that
+; it is a caption list.
+
+If(Arg(1) != "") Do
+
+; We want only to process the first window to match this caption list.
+
+	Local Handle = Win.Handle(Arg(1))
+
+; If this window exists, and is a visible window, then we can start
+; processing it.
+
+	If(VisibleWindow(Handle)) Do
+
+; We should only continue if the window actually hides after we ask it
+; to. Some windows (e.g. the taskbar) don't accept such a command and
+; so we should act appropriately in such a situation.
+
+		Win.Hide(Handle)
+		If(Not(VisibleWindow(Handle))) Do
+
+; Because we are using dynamic command lists to show each tag, it is
+; necessary to keep track of each tag we create so that we can recreate
+; them all if these command lists are destroyed, e.g. during a PowerPro
+; reconfigure.
+
+			Static Map
+			If(Not(Map.Exists(Map)))
+				Map = Map.Create(0)
+
+; This map will contain the tag's corresponding window handle and the
+; tag's position on the screen. This is all the information we need in
+; the event that we must recreate the tags.
+
+			Map[Handle] = "&(IfElse(XMouse > 6, IfElse(XMouse > XScreen - 56, XScreen - 56, XMouse - 7), 0)) &(IfElse(YMouse > 20, IfElse(YMouse > YScreen - 44, YScreen - 44, YMouse - 21), 0))"
+
+; We will now create and display the tag.
+
+			.@Create(Handle)
+
+; While a tag exists, it is possible that the window to which it
+; corresponds will cease to exist, or reappear as a visible window. It
+; is also possible that the tag itself will be destroyed while the
+; window is hidden. Therefore, we must set up a mechanism that checks
+; this information every so often.
+
+; A static variable is introduced here to ensure that only one pending
+; call to the Poll routine exists at any given time.
+
+			Static PollPending
+			If(Not(Event.Exists(PollPending)))
+				PollPending = Event.Create(1, 1, ".&(ScriptName)@Poll")
+		EndIf
+	Else
+
+; If no visible window matched the specified caption list then we will
+; display an error message.
+
+		MessageBox("Stop", "The specified caption list does not match a visible window:\n" ++ Arg(1), "Floating Tag")
+	EndIf
+Else
+
+; If no argument was passed to the script then we will display an
+; explanatory message box describing Floating Tag's usage.
+
+	MessageBox("Asterisk", "Floating Tag v2.0\nWritten by Alex Peters, 23/8/2004\n\nUsage:\n.&(ScriptName)(\"Active\")\tfor keyboard shortcuts\n.&(ScriptName)(\"Under\")\tfor mouse actions\n.&(ScriptName)(\"Caption List\")\tfor specific windows", "Floating Tag")
+EndIf
+Quit
+
+; ______________________________________________________________________
+
+@Create
+
+; The Create routine is called during the creation of a tag. It creates
+; a dynamic command list (the tag) and shows it as a bar.
+
+	Local CmdList = "FloatingTag_&(Arg(1))"
+	Local TagPos = Map[Arg(1)]
+	CL.Create(CmdList, 1)
+	CL.SetProperties(CmdList, "Skin=FloatingTag\\Skin.txt\nFormat=AllVDesks Bottom: &(Word(TagPos, 2) + 1) Flat IconSize: 32 Left: &(Word(TagPos, 1)) Right: &(Word(TagPos, 1) + 1) ToolTips Top: &(Word(TagPos, 2)) TopMost")
+	CL.Insert(CmdList, 0)
+	CL.Insert(CmdList, 1)
+	CL.SetIcon(CmdList, 0, Win.EXEPath(Arg(1)))
+	CL.SetToolTip(CmdList, 0, IfElse(Win.Caption(Arg(1)), Win.Caption(Arg(1)), "(None)"))
+	CL.SetToolTip(CmdList, 1, "(None)")
+	CL.AddLeft(CmdList, 0, ?'.&(ScriptName)@Restore("&(Arg(1))")')
+	CL.AddLeft(CmdList, 1, "*Format", "Drag")
+	CL.AddMiddle(CmdList, 0, ?'.&(ScriptName)@TrayMin("&(Arg(1))")')
+	CL.AddMiddle(CmdList, 1, "*Format", "Drag")
+	CL.AddRight(CmdList, 0, ?'.&(ScriptName)@Menu("&(Arg(1))")')
+	CL.AddRight(CmdList, 1, ?'.&(ScriptName)@Menu("&(Arg(1))")')
+	Bar.Show(CmdList)
+	Quit
+; ______________________________________________________________________
+
+@Menu
+
+; The Menu routine is called when the user right-clicks on a tag. It
+; shows a popup menu of options related to that tag and the window to
+; which it corresponds.
+
+	Local Menu = Vec.CreateFromLines("&Restore\nMove to &Tray\n*Sep\n&Destroy Tag")
+	Local Result = Vec.ShowMenu(Menu)
+	Menu = Vec.Destroy(Menu)
+	If(Result == 0)
+		.@Restore(Arg(1))
+	If(Result == 1)
+		.@TrayMin(Arg(1))
+	If(Result == 3)
+		.@Destroy(Arg(1))
+	Quit
+; ______________________________________________________________________
+
+@Restore
+
+; The Restore routine is called when the user left-clicks on a tag, or
+; when s/he clicks Restore from a tag's popup menu. It returns the
+; window to its original state and destroys its corresponding tag.
+
+	Win.Show(Arg(1))
+	.@Destroy(Arg(1))
+	Quit
+; ______________________________________________________________________
+
+@Destroy
+
+; The Destroy routine is called when a tag is no longer to be shown.
+; This can occur when a window is restored, when it is transferred to
+; the tray, when that window ceases to exist, or when the user selects
+; Destroy Tag from a tag's popup menu.
+
+	If(CL.Exists("FloatingTag_&(Arg(1))"))
+		CL.RemoveAll("FloatingTag_&(Arg(1))")
+	Map.Delete(Map, Arg(1))
+	Quit
+; ______________________________________________________________________
+
+@TrayMin
+
+; The TrayMin routine is called when the user middle-clicks on a tag's
+; icon, or when s/he clicks Minimise to Tray from a tag's popup menu. It
+; transfers the tag to the system tray.
+
+	Win.TrayMin(Arg(1))
+	.@Destroy(Arg(1))
+	Quit
+; ______________________________________________________________________
+
+@Poll
+
+; The Poll routine is called periodically while any tags exist. It
+; restores all tags after a PowerPro reconfigure (which destroys all
+; dynamic command lists), destroys any tags that correspond to a visible
+; or non-existent window, and keeps a record of each tag's position on
+; the screen.
+
+; We will reset the PollPending variable to indicate that there is no
+; longer a pending call to this routine.
+
+	PollPending = 0
+	Local ReposData
+
+; We now want to process each element of the map.
+
+	Map.Restart(Map)
+	For()
+		Local Handle = Map.GetNext(Map)
+		If(Map.EOF(Map))
+			Break
+
+; We will now check that the window to which the entry in the map
+; corresponds still exists as a hidden window.
+
+		If(AnyWindow(Handle) && Not(VisibleWindow(Handle))) Do
+
+; If it does then we will ensure that a tag exists for it, and if it
+; does then we will update the map with the tag's position on the
+; screen.
+
+			If(CL.Exists("FloatingTag_&(Handle)")) Do
+				Local TagPos = Win.Left("FloatingTag_&(Handle)") ++ " " ++ Win.Top("FloatingTag_&(Handle)")
+				If(Map[Handle] != TagPos)
+
+; We cannot directly update the element in the map at this point in the
+; script, since it may/will restart our loop at the first element in the
+; map. This will result in an endless loop and hang PowerPro.
+
+; To avoid this, we will output each element update to a variable and
+; perform the updates to the map after we leave our loop.
+
+					ReposData = ReposData ++ "Map[&(Handle)] = \"&(TagPos)\"\n"
+			Else
+				.@Create(Handle)
+			EndIf
+
+; If the window to which the map entry corresponds no longer exists as
+; a hidden window then we should destroy the tag.
+
+		Else
+			.@Destroy(Handle)
+		EndIf
+	EndFor
+
+; Here is where we update the map's elements with the correct positions.
+
+	Do(ReposData)
+
+; If there are any tags left after this processing then we should queue
+; another call to this routine.
+
+	If(Map.Length(Map)) Do
+		If(Not(Event.Exists(PollPending)))
+			PollPending = Event.Create(1, 1, ".&(ScriptName)@Poll")
+
+; If not then we should destroy the map and quit.
+
+	Else
+		Map = Map.Destroy(Map)
+	EndIf
+	Quit
+; ______________________________________________________________________

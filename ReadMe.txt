@@ -1,56 +1,40 @@
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 Floating Tag
 ¯¯¯¯¯¯¯¯¯¯¯¯
-Version 1.0
-Sunday, 30 November 2003
+Version 2.0
+Monday, 4 October 2004
 ________________________________________________________________________
 
 What?
 ¯¯¯¯¯
-The Floating Tag kit allows you to minimise as many as ten windows at
-once, to small draggable ‘tags’ on screen. Once a window has been
-minimised to this tag form, it no longer appears on the taskbar.
+The Floating Tag kit allows you to minimise any amount of windows to
+small draggable ‘tags’ on screen. Once a window has been minimised to
+this tag form, it no longer appears on the taskbar.
 ________________________________________________________________________
 
 Requirements
 ¯¯¯¯¯¯¯¯¯¯¯¯
-This kit uses the Win plugin, which is included with PowerPro.
-
-The ‘Use Quote for Escape in Expression Strings’ checkbox, found under
-Setup > Advanced Setup > Characters, must be ticked for the script to
-work. This option is not ticked by default.
+This script conforms to Standard Configuration, a feature found only in
+PowerPro versions v4.1 and above. You must have the appropriate option
+selected in your configuration's Advanced Setup.
 ________________________________________________________________________
 
-Automated Installation
-¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-Extract the contents of the archive into a temporary folder and double-
-click the Install script. PowerPro must be running in order to do this.
+Installation
+¯¯¯¯¯¯¯¯¯¯¯¯
+1. If you already have Floating Tag v1.0 installed:
 
-The installation script will attempt to detect the current configuration
-and assume that you would like to install the Floating Tag kit to this
-.PCF file, but you have the option of selecting your own .PCF file
-during the installation.
-________________________________________________________________________
+   * Remove the ‘Floating Tag: X’ command lists from your configuration.
+   * You will want to replace every file for which you are prompted.
 
-Manual Installation
-¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-If the automated installation procedure does not work for you:
+2. Extract FloatingTag.PowerPro to your Scripts folder, e.g.:
+   C:\Program Files\PowerPro\Scripts\FloatingTag.PowerPro
 
-1. Extract the ‘FloatingTag.PowerPro’ and ‘Import.txt’ files to your
-   Scripts folder (generally ‘C:\Program Files\PowerPro\Scripts’).
+3. Create a folder named FloatingTag under your Skins folder, e.g.:
+   C:\Program Files\PowerPro\Skins\FloatingTag
 
-2. Create a new folder named ‘FloatingTag’ within your Skins folder
-   (e.g. ‘C:\Program Files\PowerPro\Skins\FloatingTag’).
-
-3. Extract the ‘Back.bmp’ and ‘Skin.txt’ files to this newly created
-   folder.
-
-4. Open PowerPro Configuration, click the ‘Import from Text’ button
-   found on the Setup tab, navigate to your Scripts folder (if PowerPro
-   has not already placed you there), double-click the ‘Import.txt’ file
-   and click OK to close PowerPro Configuration.
-
-5. Delete the ‘Import.txt’ file from your Scripts folder.
+4. Extract Back.bmp and Skin.txt to this newly created folder, e.g.:
+   C:\Program Files\PowerPro\Skins\FloatingTag\Back.bmp
+   C:\Program Files\PowerPro\Skins\FloatingTag\Skin.txt
 ________________________________________________________________________
 
 Invoking
@@ -62,15 +46,17 @@ as a parameter:
 
 Floating Tag will minimise the first window to match the caption list.
 
-The suggested methods of invoking are .FloatingTag("Active") for
-keyboard shortcuts and .FloatingTag("Under") for mouse actions.
+By setting a hotkey to invoke .FloatingTag("Active") you will be able
+to minimise windows to a tag with a key press. By setting a mouse action
+to invoke .FloatingTag("Under") you will be able to minimise windows
+using e.g. a middle click on a window's caption.
 ________________________________________________________________________
 
 Usage
 ¯¯¯¯¯
 A tag consists of a ‘grip’ area and the tagged window's program icon.
 
-* Left- or middle-clicking the grip allows you to reposition the tag on
+* Left- or middle-dragging the grip allows you to reposition the tag on
   the screen.
 
 * Left-clicking the icon will restore the window to its original form.
@@ -79,11 +65,11 @@ A tag consists of a ‘grip’ area and the tagged window's program icon.
   This is equivalent to PowerPro's *Window TrayMin feature.
 
 * Right-clicking either the grip or the icon presents a popup menu that
-  allows you to restore the window, transfer it to the system tray, and
+  allows you to restore the window, transfer it to the system tray, or
   close the tag without restoring the window.
 
 Tags will automatically disappear if their corresponding window closes
-or reappears as a standard window.
+or reappears as a visible window.
 ________________________________________________________________________
 
 To Conclude
@@ -107,6 +93,12 @@ ________________________________________________________________________
 
 Version History
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+v2.0 (4/10/2004)
+* Modifications to the .PCF are no longer needed in order to install
+  Floating Tag
+* It is now possible to minimise any amount of windows to tags, not just
+  10
+
 v1.0 (30/11/2003)
-* Initial Release
+* Initial release
 ________________________________________________________________________
