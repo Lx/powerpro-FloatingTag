@@ -1,7 +1,9 @@
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-; Floating Tag v2.0
-; Written by Alex Peters, 4/10/2004
+; Floating Tag v2.1
+; Written by Alex Peters, 5/10/2004
 ; ______________________________________________________________________
+
+Local LF = Esc(?"\n", ?"\")
 
 ; If an argument has been passed to the script then we will assume that
 ; it is a caption list.
@@ -37,7 +39,7 @@ If(Arg(1) != "") Do
 ; tag's position on the screen. This is all the information we need in
 ; the event that we must recreate the tags.
 
-			Map[Handle] = "&(IfElse(XMouse > 6, IfElse(XMouse > XScreen - 56, XScreen - 56, XMouse - 7), 0)) &(IfElse(YMouse > 20, IfElse(YMouse > YScreen - 44, YScreen - 44, YMouse - 21), 0))"
+			Map[Handle] = IfElse(XMouse > 6, IfElse(XMouse > XScreen - 56, XScreen - 56, XMouse - 7), 0) ++ ?" " ++ IfElse(YMouse > 20, IfElse(YMouse > YScreen - 44, YScreen - 44, YMouse - 21), 0)
 
 ; We will now create and display the tag.
 
@@ -54,21 +56,22 @@ If(Arg(1) != "") Do
 
 			Static PollPending
 			If(Not(Event.Exists(PollPending)))
-				PollPending = Event.Create(1, 1, ".&(ScriptName)@Poll")
+				PollPending = Event.Create(1, 1, ?"." ++ ScriptName ++ ?"@Poll")
 		EndIf
 	Else
 
 ; If no visible window matched the specified caption list then we will
 ; display an error message.
 
-		MessageBox("Stop", "The specified caption list does not match a visible window:\n" ++ Arg(1), "Floating Tag")
+		MessageBox(?"Stop", ?"The specified caption list does not match a visible window:" ++ LF ++ Arg(1), ?"Floating Tag")
 	EndIf
 Else
 
 ; If no argument was passed to the script then we will display an
 ; explanatory message box describing Floating Tag's usage.
 
-	MessageBox("Asterisk", "Floating Tag v2.0\nWritten by Alex Peters, 23/8/2004\n\nUsage:\n.&(ScriptName)(\"Active\")\tfor keyboard shortcuts\n.&(ScriptName)(\"Under\")\tfor mouse actions\n.&(ScriptName)(\"Caption List\")\tfor specific windows", "Floating Tag")
+	Local Tab = Esc(?"\t", ?"\")
+	MessageBox(?"Asterisk", ?"Floating Tag v2.1" ++ LF ++ ?"Written by Alex Peters, 5/10/2004" ++ LF ++ LF ++ ?"Usage:" ++ LF ++ ?"." ++ ScriptName ++ ?'("Active")' ++ Tab ++ ?"for keyboard shortcuts" ++ LF ++ ?"." ++ ScriptName ++ ?'("Under")' ++ Tab ++ ?"for mouse actions" ++ LF ++ ?"." ++ ScriptName ++ ?'("Caption List")' ++ Tab ++ ?"for specific windows", ?"Floating Tag")
 EndIf
 Quit
 
@@ -79,21 +82,21 @@ Quit
 ; The Create routine is called during the creation of a tag. It creates
 ; a dynamic command list (the tag) and shows it as a bar.
 
-	Local CmdList = "FloatingTag_&(Arg(1))"
+	Local CmdList = ?"FloatingTag_" ++ Arg(1)
 	Local TagPos = Map[Arg(1)]
 	CL.Create(CmdList, 1)
-	CL.SetProperties(CmdList, "Skin=FloatingTag\\Skin.txt\nFormat=AllVDesks Bottom: &(Word(TagPos, 2) + 1) Flat IconSize: 32 Left: &(Word(TagPos, 1)) Right: &(Word(TagPos, 1) + 1) ToolTips Top: &(Word(TagPos, 2)) TopMost")
+	CL.SetProperties(CmdList, ?"Skin=FloatingTag\Skin.txt" ++ Esc(?"\n", ?"\") ++ ?"Format=AllVDesks Bottom: " ++ (Word(TagPos, 2) + 1) ++ ?" Flat IconSize: 32 Left: " ++ (Word(TagPos, 1)) ++ ?" Right: " ++ (Word(TagPos, 1) + 1) ++ ?" ToolTips Top: " ++ (Word(TagPos, 2)) ++ ?" TopMost")
 	CL.Insert(CmdList, 0)
 	CL.Insert(CmdList, 1)
 	CL.SetIcon(CmdList, 0, Win.EXEPath(Arg(1)))
-	CL.SetToolTip(CmdList, 0, IfElse(Win.Caption(Arg(1)), Win.Caption(Arg(1)), "(None)"))
-	CL.SetToolTip(CmdList, 1, "(None)")
-	CL.AddLeft(CmdList, 0, ?'.&(ScriptName)@Restore("&(Arg(1))")')
-	CL.AddLeft(CmdList, 1, "*Format", "Drag")
-	CL.AddMiddle(CmdList, 0, ?'.&(ScriptName)@TrayMin("&(Arg(1))")')
-	CL.AddMiddle(CmdList, 1, "*Format", "Drag")
-	CL.AddRight(CmdList, 0, ?'.&(ScriptName)@Menu("&(Arg(1))")')
-	CL.AddRight(CmdList, 1, ?'.&(ScriptName)@Menu("&(Arg(1))")')
+	CL.SetToolTip(CmdList, 0, IfElse(Win.Caption(Arg(1)), Win.Caption(Arg(1)), ?"(None)"))
+	CL.SetToolTip(CmdList, 1, ?"(None)")
+	CL.AddLeft(CmdList, 0, ?"." ++ ScriptName ++ ?"@Restore(" ++ Arg(1) ++ ?")")
+	CL.AddLeft(CmdList, 1, ?"*Format", ?"Drag")
+	CL.AddMiddle(CmdList, 0, ?"." ++ ScriptName ++ ?"@TrayMin(" ++ Arg(1) ++ ?")")
+	CL.AddMiddle(CmdList, 1, ?"*Format", ?"Drag")
+	CL.AddRight(CmdList, 0, ?"." ++ ScriptName ++ ?"@Menu(" ++ Arg(1) ++ ?")")
+	CL.AddRight(CmdList, 1, ?"." ++ ScriptName ++ ?"@Menu(" ++ Arg(1) ++ ?")")
 	Bar.Show(CmdList)
 	Quit
 ; ______________________________________________________________________
@@ -104,7 +107,8 @@ Quit
 ; shows a popup menu of options related to that tag and the window to
 ; which it corresponds.
 
-	Local Menu = Vec.CreateFromLines("&Restore\nMove to &Tray\n*Sep\n&Destroy Tag")
+	Local LF = Esc(?"\n", ?"\")
+	Local Menu = Vec.CreateFromLines(?"&Restore" ++ LF ++ ?"Move to &Tray" ++ LF ++ ?"*Sep" ++ LF ++ ?"&Destroy Tag")
 	Local Result = Vec.ShowMenu(Menu)
 	Menu = Vec.Destroy(Menu)
 	If(Result == 0)
@@ -134,8 +138,8 @@ Quit
 ; the tray, when that window ceases to exist, or when the user selects
 ; Destroy Tag from a tag's popup menu.
 
-	If(CL.Exists("FloatingTag_&(Arg(1))"))
-		CL.RemoveAll("FloatingTag_&(Arg(1))")
+	If(CL.Exists(?"FloatingTag_" ++ Arg(1)))
+		CL.RemoveAll(?"FloatingTag_" ++ Arg(1))
 	Map.Delete(Map, Arg(1))
 	Quit
 ; ______________________________________________________________________
@@ -182,8 +186,8 @@ Quit
 ; does then we will update the map with the tag's position on the
 ; screen.
 
-			If(CL.Exists("FloatingTag_&(Handle)")) Do
-				Local TagPos = Win.Left("FloatingTag_&(Handle)") ++ " " ++ Win.Top("FloatingTag_&(Handle)")
+			If(CL.Exists(?"FloatingTag_" ++ Handle)) Do
+				Local TagPos = Win.Left(?"FloatingTag_" ++ Handle) ++ ?" " ++ Win.Top(?"FloatingTag_" ++ Handle)
 				If(Map[Handle] != TagPos)
 
 ; We cannot directly update the element in the map at this point in the
@@ -193,7 +197,7 @@ Quit
 ; To avoid this, we will output each element update to a variable and
 ; perform the updates to the map after we leave our loop.
 
-					ReposData = ReposData ++ "Map[&(Handle)] = \"&(TagPos)\"\n"
+					ReposData = ReposData ++ ?"Map[" ++ Handle ++ ?'] = "' ++ TagPos ++ ?'"' ++ Esc(?"\n", ?"\")
 			Else
 				.@Create(Handle)
 			EndIf
@@ -215,7 +219,7 @@ Quit
 
 	If(Map.Length(Map)) Do
 		If(Not(Event.Exists(PollPending)))
-			PollPending = Event.Create(1, 1, ".&(ScriptName)@Poll")
+			PollPending = Event.Create(1, 1, ?"." ++ ScriptName ++ ?"@Poll")
 
 ; If not then we should destroy the map and quit.
 

@@ -1,8 +1,8 @@
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 Floating Tag
 ¯¯¯¯¯¯¯¯¯¯¯¯
-Version 2.0
-Monday, 4 October 2004
+Version 2.1
+Tuesday, 5 October 2004
 ________________________________________________________________________
 
 What?
@@ -14,17 +14,17 @@ ________________________________________________________________________
 
 Requirements
 ¯¯¯¯¯¯¯¯¯¯¯¯
-This script conforms to Standard Configuration, a feature found only in
-PowerPro versions v4.1 and above. You must have the appropriate option
-selected in your configuration's Advanced Setup.
+This script uses features found only in PowerPro versions v4.1 and
+above.
 ________________________________________________________________________
 
 Installation
 ¯¯¯¯¯¯¯¯¯¯¯¯
-1. If you already have Floating Tag v1.0 installed:
+If you already have Floating Tag installed, please overwrite all files
+when asked.
 
-   * Remove the ‘Floating Tag: X’ command lists from your configuration.
-   * You will want to replace every file for which you are prompted.
+1. If you already have Floating Tag v1.0 installed, remove the ‘Floating
+   Tag: X’ command lists from your configuration.
 
 2. Extract FloatingTag.PowerPro to your Scripts folder, e.g.:
    C:\Program Files\PowerPro\Scripts\FloatingTag.PowerPro
@@ -56,17 +56,17 @@ Usage
 ¯¯¯¯¯
 A tag consists of a ‘grip’ area and the tagged window's program icon.
 
-* Left- or middle-dragging the grip allows you to reposition the tag on
-  the screen.
+*  Left- or middle-dragging the grip allows you to reposition the tag
+   on the screen.
 
-* Left-clicking the icon will restore the window to its original form.
+*  Left-clicking the icon will restore the window to its original form.
 
-* Middle-clicking the icon will transfer the tag to the system tray.
-  This is equivalent to PowerPro's *Window TrayMin feature.
+*  Middle-clicking the icon will transfer the tag to the system tray.
+   This is equivalent to PowerPro's *Window TrayMin feature.
 
-* Right-clicking either the grip or the icon presents a popup menu that
-  allows you to restore the window, transfer it to the system tray, or
-  close the tag without restoring the window.
+*  Right-clicking either the grip or the icon presents a popup menu that
+   allows you to restore the window, transfer it to the system tray, or
+   close the tag without restoring the window.
 
 Tags will automatically disappear if their corresponding window closes
 or reappears as a visible window.
@@ -93,12 +93,16 @@ ________________________________________________________________________
 
 Version History
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+v2.1 (5/10/2004)
+*  The script no longer conforms to Standard Configuration and should
+   now function without modification on any PowerPro v4.1 configuration
+
 v2.0 (4/10/2004)
-* Modifications to the .PCF are no longer needed in order to install
+*  Modifications to the .PCF are no longer needed in order to install
   Floating Tag
-* It is now possible to minimise any amount of windows to tags, not just
-  10
+*  It is now possible to minimise any amount of windows to tags, not
+   just 10
 
 v1.0 (30/11/2003)
-* Initial release
+*  Initial release
 ________________________________________________________________________
