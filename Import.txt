@@ -1,0 +1,110 @@
+[Floating Tag: 0]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(0))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (0)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (0)
+M 50000 .FloatingTag@TrayMin (0)
+R 50000 .FloatingTag@Menu (0)
+[Floating Tag: 1]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(1))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (1)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (1)
+M 50000 .FloatingTag@TrayMin (1)
+R 50000 .FloatingTag@Menu (1)
+[Floating Tag: 2]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(2))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (2)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (2)
+M 50000 .FloatingTag@TrayMin (2)
+R 50000 .FloatingTag@Menu (2)
+[Floating Tag: 3]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(3))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (3)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (3)
+M 50000 .FloatingTag@TrayMin (3)
+R 50000 .FloatingTag@Menu (3)
+[Floating Tag: 4]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(4))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (4)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (4)
+M 50000 .FloatingTag@TrayMin (4)
+R 50000 .FloatingTag@Menu (4)
+[Floating Tag: 5]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(5))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (5)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (5)
+M 50000 .FloatingTag@TrayMin (5)
+R 50000 .FloatingTag@Menu (5)
+[Floating Tag: 6]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(6))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (6)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (6)
+M 50000 .FloatingTag@TrayMin (6)
+R 50000 .FloatingTag@Menu (6)
+[Floating Tag: 7]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(7))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (7)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (7)
+M 50000 .FloatingTag@TrayMin (7)
+R 50000 .FloatingTag@Menu (7)
+[Floating Tag: 8]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(8))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (8)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (8)
+M 50000 .FloatingTag@TrayMin (8)
+R 50000 .FloatingTag@Menu (8)
+[Floating Tag: 9]
+G 755720 5 0 0 0 0 0 127 0 0 0 FloatingTag\Skin.txt
+"*Info expr(.FloatingTag@Check(9))" *Move
+L 50000 *Format Drag
+M 50000 *Format Drag
+R 50000 .FloatingTag@Menu (9)
+F 2891776 12 0 16777215
+"" *(None)
+L 50000 .FloatingTag@Restore (9)
+M 50000 .FloatingTag@TrayMin (9)
+R 50000 .FloatingTag@Menu (9)

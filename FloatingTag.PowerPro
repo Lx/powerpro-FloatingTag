@@ -1,0 +1,87 @@
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+; Floating Tag v1.0
+; Written by Alex Peters, 30/11/2003
+; ______________________________________________________________________
+
+If(Arg(1)) Do
+    Local WinHandle
+    WinHandle = Win.Handle(Arg(1))
+    If(AnyWindow(WinHandle)) Do
+        Static Vector
+        If(Not(Vector))
+            Vector = Vec.Create(10)
+        Local TagNo
+        For(TagNo = 0; TagNo LT 10; TagNo = TagNo + 1)
+            If(Not(Vector[TagNo]))
+                Break
+        EndFor
+        If(TagNo == 10) Do
+            MessageBox("Warning", "Only a maximum of ten floating tags may exist at once.'n'nPlease move some tags to the system tray (by middle- or right-clicking the icons) and try again.", "Floating Tag")
+        Else
+            Win.Hide(WinHandle)
+            If(Not(VisibleWindow(WinHandle))) Do
+                Vector[TagNo] = WinHandle
+                Do("*Format Item List '"Floating Tag:", TagNo ++ "'" Item 2 ToolTip '"" ++ ReplaceChars(Win.Caption(WinHandle), "'"", "''''") ++ "'" IconFile '"" ++ Win.EXEPath(WinHandle) ++ "'"")
+                Do("*Bar Show Floating Tag:", TagNo)
+                Win.Move("Floating Tag: " ++ TagNo, IfElse(XMouse > 6, IfElse(XMouse > XScreen - 56, XScreen - 56, XMouse - 7), 0), IfElse(YMouse > 20, IfElse(YMouse > YScreen - 44, YScreen - 44, YMouse - 21), 0))
+            EndIf
+        EndIf
+    Else
+        MessageBox("Stop", "The specified window does not exist:'n‘" ++ Arg(1) ++ "’", "Floating Tag")
+    EndIf
+Else
+    MessageBox("Asterisk", "Floating Tag v1.0'nWritten by Alex Peters, 30/11/2003'n'nUsage:'n.FloatingTag('"Active'")'tfor a keyboard shortcut'n.FloatingTag('"Under'")'tfor a mouse action'n.FloatingTag('"Caption List'")'tfor a specific window", "Floating Tag")
+EndIf
+
+Quit
+
+@Destroy
+
+    If(AnyWindow("Floating Tag: " ++ Arg(1)))
+        Do("*Bar Close Floating Tag:", Arg(1))
+    Vector[Arg(1)] = ""
+
+    Quit
+
+@Restore
+
+    Win.Show(Vector[Arg(1)])
+    .@Destroy(Arg(1))
+
+    Quit
+
+@Check
+
+    Local WinHandle
+    WinHandle = Vector[Arg(1)]
+    If(VisibleWindow(WinHandle) or Not(AnyWindow(WinHandle)))
+        .@Destroy(Arg(1))
+
+    Quit("")
+
+@TrayMin
+
+    Win.TrayMin(Vector[Arg(1)])
+    .@Destroy(Arg(1))
+
+    Quit
+
+@Menu
+
+    Local Menu
+    Menu = Vec.Create(4)
+    Menu[0] = "&Restore"
+    Menu[1] = "Move to &Tray"
+    Menu[2] = "*Sep"
+    Menu[3] = "&Destroy Tag"
+    Local Result
+    Result = Vec.ShowMenu(Menu)
+    Menu = Vec.Destroy(Menu)
+    If(Result == 0)
+        .@Restore(Arg(1))
+    If(Result == 1)
+        .@TrayMin(Arg(1))
+    If(Result == 3)
+        .@Destroy(Arg(1))
+
+    Quit
